@@ -4,29 +4,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Palindrome_string {
+public class Valid_palindrome {
     public String solution(String str){
+        str = str.toUpperCase().replaceAll("[^A-Z]", "");
         StringBuilder sb = new StringBuilder(str);
-
-        String reverseStr = String.valueOf(sb.reverse());
-
-        boolean flag;
-
-        if(reverseStr.toUpperCase().equals(str.toUpperCase())){
-            flag = true;
-        } else flag = false;
-
-        if(flag == true) return "YES";
+        if(str.equals(sb.reverse().toString())) return "YES";
         else return "NO";
     }
     public static void main(String[] args) throws IOException {
-        Palindrome_string p = new Palindrome_string();
+        Valid_palindrome v = new Valid_palindrome();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         String str = br.readLine();
-
-        str = p.solution(str);
-
-        System.out.println(str);
+        System.out.println(v.solution(str));
     }
 }
