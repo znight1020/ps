@@ -1,4 +1,4 @@
-package lecture.section7_recursive_tree_graph;
+package lecture.section7_recursive_tree_graph.dfs;
 
 import java.io.BufferedReader;
 import java.io.IOException;

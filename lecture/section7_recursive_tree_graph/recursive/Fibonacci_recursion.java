@@ -1,4 +1,4 @@
-package lecture.section7_recursive_tree_graph;
+package lecture.section7_recursive_tree_graph.recursive;
 
 // 재귀를 사용하는 경우 StackFrame이 계속 쌓이게 되므로 성능이 안좋다
 // -> 메모이제이션을 사용하면 성능이 개선 될 수 있지만(아래 ** 참고) main에서 결과를 도출하는 것이 훨씬 성능이 좋음
