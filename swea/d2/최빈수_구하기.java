@@ -7,11 +7,10 @@ import java.util.StringTokenizer;
 
 public class 최빈수_구하기 {
     public static void main(String[] args) throws IOException {
-        최빈수_구하기 m = new 최빈수_구하기();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
         int[] arr;
-        int max = Integer.MIN_VALUE, answer = 0;
+        int max, answer = 0;
 
         int testCase = Integer.parseInt(br.readLine());
         int n;
