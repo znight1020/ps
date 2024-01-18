@@ -8,7 +8,7 @@ public class ClimbingStairs {
 
     public int solution(int[] stairPoint){
         
-        return answer;
+        return 0;
     }
 
     public static void main(String[] args) throws IOException {
