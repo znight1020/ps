@@ -1,4 +1,4 @@
-package solved.b3;
+package b3;
 
 import java.util.Scanner;
 

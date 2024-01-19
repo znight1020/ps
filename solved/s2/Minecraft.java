@@ -1,4 +1,4 @@
-package solved.s2;
+package s2;
 
 import java.io.BufferedReader;
 import java.io.IOException;
