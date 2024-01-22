@@ -13,7 +13,6 @@ public class OrdinaryBackpack {
 
     int solution(int K){
         // 선택된 요소들의 무게의 합이 총 무게를 넘지 않을 때
-        while()
         return answer;
     }
     public static void main(String[] args) throws IOException{
