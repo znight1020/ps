@@ -5,46 +5,47 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-// DP
+// 누적합
 
 class Fibonacci{
-    static int[] fi;
-    static int zero = 0;
-    static int one = 0;
-    void solution(int num){
-        fibo(num);
-    }
+    static int[] zero = new int[41];
+    static int[] one = new int[41];
+    static int max = Integer.MIN_VALUE;;
 
-    int fibo(int num){
+    void fibo(int num){
+        if (num > max) return;
 
-        if (num == 0) {
-            fi[0] = 0;
-            zero++;
-            return 0;
-            
-        } else if (num == 1) {
-            fi[1] = 1;
-            one++;
-            return 1;
-        } else {
-            return fibo(num-1) + fibo(num-2);
+        if(num == 0){
+            zero[num] = 1;
+            one[num] = 0;
         }
+        else if(num == 1){
+            zero[num] = 0;
+            one[num] = 1;
+        }
+        else {
+            zero[num] = zero[num-2] + zero[num-1];
+            one[num] = one[num-2] + one[num-1]; 
+        }
+        num++;
+        fibo(num);
+
     }
 
     public static void main(String[] args) throws IOException {
-        
         Fibonacci f = new Fibonacci();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
         int T = Integer.parseInt(br.readLine());
 
         for(int i = 0; i < T; i++){
             int n = Integer.parseInt(br.readLine());
-            zero = 0;
-            one = 0;
-            fi = new int[n+1];
-            f.solution(n);
-            System.out.print("value: " + fi[n] + ", " + "zero: " + zero + ", one: ");
-            System.out.println(one);
+            if(max < n) {
+                max = n;
+                f.fibo(0);
+            }
+            sb.append(zero[n] + " " + one[n]).append("\n");
         }
+        System.out.print(sb);
     }
 }
