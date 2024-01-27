@@ -15,7 +15,7 @@ import java.util.ArrayList;
     
     입력값 1 < n < 1,000,000
 */
-public class MakeOne {
+public class MakeOne_dfs_bfs {
     static final int INF = 1000000;
     static int answer = Integer.MAX_VALUE;
     static ArrayList<Integer> vtd;
@@ -77,7 +77,7 @@ public class MakeOne {
     }
 
     public static void main(String[] args) throws IOException{
-        MakeOne m = new MakeOne();
+        MakeOne_dfs_bfs m = new MakeOne_dfs_bfs();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int num = Integer.parseInt(br.readLine());
         vtd = new ArrayList<>();

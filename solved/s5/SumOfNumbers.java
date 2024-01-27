@@ -32,6 +32,7 @@ public class SumOfNumbers {
         int num = Integer.parseInt(br.readLine());
 
         solution(num);
+
         System.out.print(answer);
     }
 }
