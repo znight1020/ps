@@ -16,13 +16,11 @@ public class NandM {
                 System.out.print(x + " ");
             }
             System.out.println();
-            return;
         }
         else
         {
             for(int i = 1; i <= N; i++){
-                if(vtd[i]) continue;
-                else{
+                if(!vtd[i]){
                     arr[L] = i;
                     vtd[i] = true;
                     perm(L+1);
