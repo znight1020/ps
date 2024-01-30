@@ -46,9 +46,6 @@ public class Concave {
                             if (board[tempI + dx[d]][tempJ + dy[d]] == 1 && board[i - dx[d]][j - dy[d]] != 1 ) {
                                 stackOfBlack++;
 
-                                if(d == 7) {
-
-                                }
                                 tempI += dx[d];
                                 tempJ += dy[d];
                             }
