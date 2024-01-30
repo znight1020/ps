@@ -46,10 +46,12 @@ public class SwitchOnOff {
                             right++;
                         }
                     }
-                    convert(tempNum); // 주변 상태가 다르므로 자신의 스위치 상태만 바꿈
                 }
+                convert(tempNum); // 주변 상태가 다르므로 자신의 스위치 상태만 바꿈
             }
         }
+
+
 
     }
 
@@ -70,9 +72,10 @@ public class SwitchOnOff {
             st = new StringTokenizer(br.readLine());
             stuArr.add(new Student(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
         }
-
-        switchArr[0] = -1999;
+        switchArr[0] = -1;
         solution();
+
+
 
         for(int i = 1; i < switchArr.length; i++){
             System.out.print(switchArr[i] + " ");
