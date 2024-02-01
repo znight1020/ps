@@ -19,58 +19,30 @@ public class Z {
 
         int length = (int)Math.pow(2, N);
 
-        if(length == 4) answer = 2 * r + c - 1;
-        else solution(length, length);
-
+        solution(r, c, length);
         System.out.print(answer);
     }
 
-    static void solution(int rLength, int cLength){
-        if((rLength == 1 && cLength == 1) || (r == rLength && c == cLength)) return;
+    static void solution(int r, int c, int length){
+        if(length == 1) return;
 
-        int tempR = rLength / 2;
-        int tempC = cLength / 2;
+        int size = length / 2;
+        int point = size * size;
 
-        System.out.println("rLen: " + rLength + ", cLen: " + cLength + ", answer: " + answer);
-        // 4개로 나누기
-            if(r < rLength / 2 && c < cLength / 2) { // 1 사분면 = 점수 없음
-                solution(rLength / 2, cLength / 2);
-            }
-            else if(r < rLength / 2 && c >= cLength / 2) { // 2 사분면 = 1 사분면의 점수 획득
-                answer += tempR * tempC;
-                solution(rLength / 2, cLength / 2);
-            }
-            else if(r >= rLength / 2 && c < cLength / 2) { // 3 사분면 = 1,2 사분면의 점수 획득
-                answer += 2 * tempR * tempC;
-                solution(rLength / 2, cLength / 2);
-            }
-            else if(r >= rLength / 2 && c >= cLength / 2) { // 4 사분면 = 1,2,3 사분면의 점수 획득
-                answer += 3 * tempR * tempC;
-                solution(rLength / 2, cLength / 2);
-            }
-
-
-//        if(rLength == 1 && cLength == 1) return;
-//
-//        int tempR = rLength / 2;
-//        int tempC = cLength / 2;
-//
-//        // 4개로 나누기
-//        if(r < tempR && c < tempC) { // 1 사분면 = 점수 없음
-//            solution(tempR, tempC);
-//        }
-//        else if(r < tempR) { // 2 사분면 = 1 사분면의 점수 획득
-//            answer += tempR * tempC;
-//            solution(tempR, tempC);
-//        }
-//        else if(c < tempC) { // 3 사분면 = 1,2 사분면의 점수 획득
-//            answer += 2 * tempR * tempC;
-//            solution(tempR, tempC);
-//        }
-//        else { // 4 사분면 = 1,2,3 사분면의 점수 획득
-//            answer += 3 * tempR * tempC;
-//            solution(tempR , tempC);
-//        }
-
+        if(size > r && size > c) { // 1 사분면 = 점수 없음
+            solution(r, c, size);
+        }
+        else if(size > r && size <= c) { // 2 사분면 = 1 사분면의 점수 획득
+            answer += point;
+            solution(r, c - size, size);
+        }
+        else if(size <= r && size > c) { // 3 사분면 = 1,2 사분면의 점수 획득
+            answer += 2 * point;
+            solution(r - size, c, size);
+        }
+        else { // 4 사분면 = 1,2,3 사분면의 점수 획득
+            answer += 3 * point;
+            solution(r - size, c - size, size);
+        }
     }
 }
