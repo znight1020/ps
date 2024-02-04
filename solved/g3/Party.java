@@ -37,7 +37,7 @@ public class Party {
             }
             else{
                 if(i+1 == 2) i++;
-                DFS( mapGraph.get(i+1).get(0)., timeSum + mapGraph.get(i).get(0).get( )); // target 마을에 바로 갈 수 없는 경우
+                //DFS( mapGraph.get(i+1).get(0)., timeSum + mapGraph.get(i).get(0).get( )); // target 마을에 바로 갈 수 없는 경우
             }
         }
 
