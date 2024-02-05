@@ -3,78 +3,91 @@ package solved.g3;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.StringTokenizer;
+import java.util.*;
 
-class TownTime{
-    int end, time;
-    TownTime(int end, int time){
-        this.end = end;
+class Node implements Comparable<Node>{
+    int index;
+    int time;
+    Node(int index, int time){
+        this.index = index;
         this.time = time;
+    }
+
+
+    @Override
+    public int compareTo(Node o) {
+        return this.time - o.time;
     }
 }
 public class Party {
-    static ArrayList< ArrayList<TownTime>> graph = new ArrayList<>();
-    static ArrayList< ArrayList<HashMap<Integer, Integer>>> mapGraph = new ArrayList<>();
-    static int N, M, X;
 
-    static int max = Integer.MIN_VALUE;
+    static final int INF = Integer.MAX_VALUE;
+    static PriorityQueue<Node> pq;
+    static int[] dist;
+    static int[] goDist;
+    static int[] backDist;
+    static int N,M,X;
 
-    static void DFS(int start, int timeSum){
-        if(start == X) {
-            System.out.println("했니?");
-            max = Math.max(max, timeSum);
-            return;
-        }
-
-        for(int i = start; i <= N; i++){
-            if(i == X) continue;
-
-            if(mapGraph.get(i).get(0).containsKey(X) && mapGraph.get(i).get(0).get(X) > timeSum) {
-                System.out.println("start: " + start + " 들어간다!");
-                DFS(X, timeSum + mapGraph.get(i).get(0).get(X)); // target 마을에 바로 갈 수 있는 경우
-            }
-            else{
-                if(i+1 == 2) i++;
-                //DFS( mapGraph.get(i+1).get(0)., timeSum + mapGraph.get(i).get(0).get( )); // target 마을에 바로 갈 수 없는 경우
-            }
-        }
-
-    }
+    static boolean[] vtd;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-        X = Integer.parseInt(st.nextToken()); // target
+        N = Integer.parseInt(st.nextToken()); // N명의 학생
+        M = Integer.parseInt(st.nextToken()); // M개의 단방향 도로
+        X = Integer.parseInt(st.nextToken()); // 가중치
 
-        for(int i = 0; i < N+1; i++){ // N의 수 만큼 ArrayList 생성
-            graph.add( new ArrayList<>() );
-            mapGraph.get(i).add(new HashMap<>());
+        ArrayList<Node>[] graph = new ArrayList[N+1];
+        ArrayList<Node>[] graph2 = new ArrayList[N+1];
+        for(int i = 1; i < N+1; i++){
+            graph[i] = new ArrayList<>();
+            graph2[i] = new ArrayList<>();
         }
 
-        for(int i = 0; i < M; i++){ // 그래프 초기화
+        for(int i = 0; i < M; i++){
             st = new StringTokenizer(br.readLine());
-            int start = Integer.parseInt(st.nextToken());
-            int end = Integer.parseInt(st.nextToken());
-            int time = Integer.parseInt(st.nextToken());
+            int u = Integer.parseInt(st.nextToken()); // u 에서
+            int v = Integer.parseInt(st.nextToken()); // v 로
+            int w = Integer.parseInt(st.nextToken()); // w 만큼의 비용
 
-            graph.get(start).add(new TownTime(end, time));
-
-            mapGraph.get(start).get(0).put(end, time);
+            graph[v].add(new Node(u, w));
+            graph2[u].add(new Node(v, w));
         }
 
-        for(int i = 0; i < graph.size(); i++){
-            System.out.println("ArrayList " + i + "번");
-            for(TownTime t :graph.get(i)){
-                System.out.println(t.end + " " + t.time + "\t");
+        goDist = dijkstra(X, graph);
+        backDist = dijkstra(X, graph2);
+
+        int max = Integer.MIN_VALUE;
+        for(int i = 1; i < goDist.length; i++){
+            if(goDist[i] + backDist[i] > max){
+                max = goDist[i] + backDist[i];
             }
-            System.out.println();
         }
 
-        DFS(1, 0);
-        System.out.println(max);
+        System.out.print(max);
+    }
+
+    static int[] dijkstra(int start, ArrayList<Node>[] graph){
+        vtd = new boolean[N+1];
+        pq = new PriorityQueue<>();
+
+        dist = new int[N+1];
+        Arrays.fill(dist, INF );
+
+        dist[start] = 0;
+        pq.add(new Node(start, 0));
+        while(!pq.isEmpty()){
+            int current = pq.poll().index;
+            if(vtd[current]) continue;
+            vtd[current] = true;
+            for(Node node : graph[current]){
+                if(dist[node.index] > dist[current] + node.time)
+                    dist[node.index] = dist[current] + node.time;
+
+                pq.add(new Node(node.index, dist[node.index]));
+            }
+        }
+
+        return dist;
     }
 }
