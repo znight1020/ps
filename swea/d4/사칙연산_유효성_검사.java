@@ -18,6 +18,17 @@ class Node{
 }
 public class 사칙연산_유효성_검사 {
 
+//    static boolean dfs(int x){
+//        if(x > N) return false;
+//
+//        if( Character.isDigit(node[x])){
+//            if(x * 2 > N) return true;
+//            return false;
+//        } else{
+//            return dfs(x*2) && dfs(x*2 + 1);
+//        }
+//    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
