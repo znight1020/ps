@@ -17,26 +17,23 @@ public class IntegerTriangle {
         triangle[0] = new int[1];
         triangle[0][0] = Integer.parseInt(br.readLine());
 
-        for(int i = 1; i < N; i++){
+        st = new StringTokenizer(br.readLine());
+        triangle[1] = new int[2];
+        triangle[1][0] = triangle[0][0] + Integer.parseInt(st.nextToken());
+        triangle[1][1] = triangle[0][0] + Integer.parseInt(st.nextToken());
+
+        for(int i = 2; i < N; i++){
             triangle[i] = new int[i+1];
             st = new StringTokenizer(br.readLine());
-            for(int j = 0; j <= i; j++) {
-                triangle[i][j] = triangle[i-1][j] + Integer.parseInt(st.nextToken());
-                // triangle[i][j] = triangle[i-1][j-1] + Integer.parseInt(st.nextToken());
-
+            triangle[i][0] = Integer.parseInt(st.nextToken()) + triangle[i-1][0]; // 가장 왼쪽
+            for(int j = 1; j <= i-1; j++) {
+                int temp = Integer.parseInt(st.nextToken());
+                triangle[i][j] = Math.max(triangle[i-1][j-1] + temp, triangle[i-1][j] + temp); // 중간
             }
+            triangle[i][i] = Integer.parseInt(st.nextToken()) + triangle[i-1][i-1]; // 가장 오른쪽
         }
-        DFS(0, 0,0);
+
+        for(int i = 0; i < N; i++) answer = Math.max(answer, triangle[N-1][i]);
         System.out.print(answer);
-    }
-
-    static void DFS(int index, int depth, int sum){
-        if(depth == N){
-            answer = Math.max(sum, answer);
-            return;
-        }
-
-        DFS(index, depth+1, sum + triangle[depth][index]);
-        DFS(index+1, depth+1, sum + triangle[depth][index]);
     }
 }
