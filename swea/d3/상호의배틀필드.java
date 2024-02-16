@@ -31,6 +31,7 @@ public class 상호의배틀필드 {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
         StringTokenizer st;
         int T = Integer.parseInt(br.readLine());
 
@@ -55,14 +56,16 @@ public class 상호의배틀필드 {
             command = br.readLine().toCharArray();
             solution();
 
-            System.out.print("#" + t + " ");
+            sb.append("#" + t + " ");
             for (int i = 0; i < H; i++) {
                 for (int j = 0; j < W; j++) {
-                    System.out.print(map[i][j]);
+                    sb.append(map[i][j]);
                 }
-                System.out.println();
+                sb.append("\n");
             }
         }
+
+        System.out.println(sb);
     }
     static void solution() {
         for(int i = 0; i < command.length; i++){
