@@ -20,7 +20,9 @@ public class CourierColoring {
             st = new StringTokenizer(br.readLine());
             for(int j = 0; j < M; j++){
                 boxes[i][j] = Integer.parseInt(st.nextToken());
-                if(0 < i && i < N-1 && 0 < j && j < M-1 && boxes[i][j] > 0) sum += boxes[i][j]-1;
+                if(0 < i && i < N-1 && 0 < j && j < M-1 && boxes[i][j] > 0) {
+                    sum += boxes[i][j]-1;
+                }
             }
         }
         System.out.print(sum);
