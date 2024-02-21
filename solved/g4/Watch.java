@@ -54,11 +54,11 @@ public class Watch {
             min = Math.min(temp, min);
             return;
         }
+
+
         int y = cctvArr.get(index).y;
         int x = cctvArr.get(index).x;
         int cctv = cctvArr.get(index).n;
-
-
         int ny, nx;
         switch (cctv) {
             case 1:
