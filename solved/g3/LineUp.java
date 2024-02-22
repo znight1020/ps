@@ -14,6 +14,7 @@ public class LineUp {
     static boolean[] vtd;
     static StringBuilder sb = new StringBuilder();
     static Queue<Integer> q = new LinkedList<>();
+
     static int N, M;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
