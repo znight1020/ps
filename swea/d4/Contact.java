@@ -9,13 +9,16 @@ public class Contact {
 
     static ArrayList<Integer>[] network = new ArrayList[101];
 
-    static boolean[] vtd = new boolean[101];
-    static int answer = 0;
+    static boolean[] vtd;
+    static int answer;
     public static void main(String[] args) throws IOException {
         StringBuilder sb = new StringBuilder();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        for(int i = 0; i < 101; i++) network[i] = new ArrayList<>();
-        for(int t = 1; t <= 1; t++){
+
+        for(int t = 1; t <= 10; t++){
+            for(int i = 0; i < 101; i++) network[i] = new ArrayList<>();
+            answer = 0;
+            vtd = new boolean[101];
             StringTokenizer st = new StringTokenizer(br.readLine());
             int iter = Integer.parseInt(st.nextToken());
             int start = Integer.parseInt(st.nextToken());
@@ -33,45 +36,35 @@ public class Contact {
             sb.append("#").append(t).append(" ").append(answer).append("\n");
         }
 
-        System.out.println(sb);
+        System.out.print(sb);
     }
 
-    static void BFS(int n){
-        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+    static void BFS(int start) {
+        Queue<Integer> queue = new LinkedList<>();
+        PriorityQueue<Integer> lastContacts = new PriorityQueue<>(Collections.reverseOrder());
 
-        int outCnt = 0;
-        int inCnt = 0;
-        Queue<Integer> q = new LinkedList<>();
-        q.add(n);
-        while(!q.isEmpty()){
-            int cnt = 0;
-            int temp = q.poll();
-            outCnt++;
-            System.out.println(temp);
-            if(vtd[temp]) continue;
+        queue.add(start);
+        vtd[start] = true;
 
-            vtd[temp] = true;
-            for(int i = 0; i < network[temp].size(); i++){
-                if(!vtd[network[temp].get(i)]) { // 방문하지 않은 노드
-                    q.add(network[temp].get(i)); // 방문하지 않은 노드 큐에 추가
-                    pq.add(network[temp].get(i)); // pq 추가
-                    cnt++;
-                    inCnt++;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            lastContacts.clear(); // 새로운 레벨마다 우선순위 큐 초기화
+
+            for (int i = 0; i < size; i++) {
+                int current = queue.poll();
+
+                for (int next : network[current]) {
+                    if (!vtd[next]) {
+                        queue.add(next);
+                        vtd[next] = true;
+                        lastContacts.add(next); // 해당 레벨의 연락 받는 사람들 추가
+                    }
                 }
             }
 
-            if(cnt == 0) answer = pq.poll();
-
-            if(inCnt == outCnt){
-                inCnt = 0;
-                outCnt = 0;
-                pq.clear();
+            if (!lastContacts.isEmpty()) {
+                answer = lastContacts.peek(); // 해당 레벨에서 마지막으로 연락받은 사람 갱신
             }
-            // 바로 이전 단계의 pq 중 가장 큰값을 반환
-            // cnt 가 1이상이면 더 나아가는 노드가 있음 해당 pq 추가
         }
-
-
-
     }
 }
