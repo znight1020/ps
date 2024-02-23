@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 
@@ -18,7 +16,6 @@ class Node{
     }
 }
 public class DiameterOfTheTree {
-    static Queue<Integer> q = new LinkedList<>();
     static ArrayList<Node>[] tree;
     static long answer = 0;
     static boolean[] vtd;
@@ -48,43 +45,25 @@ public class DiameterOfTheTree {
         }
 
         vtd = new boolean[V+1];
-        vtd[2] = true;
-        findRoot(1, 0, 1);
-        System.out.println("Root: " + root);
+        vtd[1] = true;
+        DFS(1, 0, 1);
 
         vtd = new boolean[V+1];
         vtd[root] = true;
-        findRoot(1, 0, root);
+        DFS(1, 0, root);
 
         System.out.print(answer);
     }
 
-    /*(*/
-    static void findRoot(int L, int diameter, int vertex){
-//        if(L == V || vtd[tree[vertex]] ) {
-//            System.out.println("ggg");
-//            if(answer < diameter){
-//                answer = diameter;
-//                root = vertex;
-//            }
-//            return;
-//        }
-
-        for(int i = 0; i < tree[vertex].size(); i++){
-            if(vtd[tree[vertex].get(i).to]) continue;
-
-            vtd[tree[vertex].get(i).to] = true;
-            int nextVertex = tree[vertex].get(i).to;
-            int weight = tree[vertex].get(i).weight;
-            DFS(L + 1, diameter + weight, nextVertex);
-        }
-    }
-
     static void DFS(int L, int diameter, int vertex){
-        if(L == V || (tree[vertex].size() == 1 && vtd[tree[vertex].get(0).to])) {
-            answer = Math.max(diameter, answer);
+        if(L == V || (L != 1 && tree[vertex].size() == 1)) {
+            if(answer < diameter){
+                answer = diameter;
+                root = vertex;
+            }
             return;
         }
+
 
         for(int i = 0; i < tree[vertex].size(); i++){
             if(vtd[tree[vertex].get(i).to]) continue;
