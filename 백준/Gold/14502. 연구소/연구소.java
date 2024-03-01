@@ -9,7 +9,6 @@ public class Main {
     static int answer = Integer.MIN_VALUE;
     static int[] dy = {-1,1,0,0};
     static int[] dx = {0,0,-1,1};
-    static boolean[] permVtd;
     static int[][] map;
     static boolean[][] vtd;
     static ArrayList<Point> virusList = new ArrayList<>();
@@ -33,10 +32,9 @@ public class Main {
                 else if(map[i][j] == 0) safeList.add(new Point(i, j));
             }
         }
-        permVtd = new boolean[safeList.size()];
-        perm(0, new Point[3], permVtd);
+        perm(0, 0, new Point[3]);
 
-        System.out.println(answer);
+        System.out.print(answer);
 
     }
 
@@ -67,7 +65,7 @@ public class Main {
         answer = Math.max(N*M - cnt, answer);
     }
 
-    static void perm(int L, Point[] permAns, boolean[] permVtd){
+    static void perm(int L, int startIdx, Point[] permAns){
         if(L == 3){
             int[][] tempMap = new int[N][M];
             boolean[][] tempVtd = new boolean[N][M];
@@ -77,14 +75,10 @@ public class Main {
             return;
         }
 
-        for(int i = 0; i < safeList.size(); i++){
-            if(permVtd[i]) continue;
+        for(int i = startIdx; i < safeList.size(); i++){
             permAns[L] = safeList.get(i);
-            permVtd[i] = true;
-            perm(L+1, permAns, permVtd);
-            permVtd[i] = false;
+            perm(L+1, i+1, permAns);
         }
-
     }
 
     static class Point{
