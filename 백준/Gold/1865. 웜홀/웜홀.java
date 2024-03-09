@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int[][] matrix;
     static ArrayList<Edge>[] edgeList;
     static int[] dis;
     static int N,M,W;
@@ -22,7 +21,6 @@ public class Main {
             W = Integer.parseInt(st.nextToken());
             edgeList = new ArrayList[N+1];
             for(int i = 0; i <= N; i++) edgeList[i] = new ArrayList<>();
-            matrix = new int[N+1][N+1];
             dis = new int[N+1];
 
 
@@ -45,9 +43,7 @@ public class Main {
             if(BellmanFord()) sb.append("YES").append("\n");
             else sb.append("NO").append("\n");
         }
-
         System.out.print(sb);
-
     }
 
     static boolean BellmanFord(){
@@ -72,7 +68,6 @@ public class Main {
 
     static class Edge{
         int to, cost;
-
         public Edge(int to, int cost) {
             this.to = to;
             this.cost = cost;
