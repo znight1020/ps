@@ -45,7 +45,7 @@ public class Main {
                 int ny = p.y + dy[i];
                 int nx = p.x + dx[i];
 
-                if(0 > ny || ny >= N || 0 > nx || nx >= M || map[ny][nx] == 'X') continue;
+                if(0 > ny || ny >= N || 0 > nx || nx >= M || map[ny][nx] == 'X' || vtd[ny][nx] ) continue;
 
                 if(map[ny][nx] == 'P') {
                     map[ny][nx] = 'O';
