@@ -34,25 +34,22 @@ public class Main {
         q.add(new Point(0,0, K, 0));
 
         while(!q.isEmpty()){
-            int size = q.size();
-            for(int i = 0; i < size; i++){
-                Point p = q.poll();
-                if(p.y == 0 && p.x == 1){
-                    answer = Math.min(p.time, answer);
-                    continue;
-                }
+            Point p = q.poll();
+            if(p.y == 0 && p.x == 1){
+                answer = Math.min(p.time, answer);
+                continue;
+            }
 
-                if (vtd[p.y][p.x] && p.time >= answer) continue;
-                vtd[p.y][p.x] = true;
+            if (vtd[p.y][p.x] && p.time >= answer) continue;
+            vtd[p.y][p.x] = true;
 
-                for(int j = 0; j < N; j++){
-                    for(int m = 0; m < N; m++){
-                        if(p.y == j || p.x == m || vtd[j][m]) continue;
-                        q.add(new Point(j, m, p.potion, p.time + map[m][p.x]));
+            for(int j = 0; j < N; j++){
+                for(int m = 0; m < N; m++){
+                    if(p.y == j || p.x == m || vtd[j][m]) continue;
+                    q.add(new Point(j, m, p.potion, p.time + map[m][p.x]));
 
-                        if(p.potion == 0) continue;
-                        q.add(new Point(j, m, p.potion-1, p.time + map[m][p.x] / 2.0));
-                    }
+                    if(p.potion == 0) continue;
+                    q.add(new Point(j, m, p.potion-1, p.time + map[m][p.x] / 2.0));
                 }
             }
         }
