@@ -2,14 +2,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main {
+    static final int INF = 987654321;
+    static int N, K;
     static int[][] map;
     static boolean[][] vtd;
-    static int N, K;
+    static double[] dis;
     static double answer;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -20,48 +21,55 @@ public class Main {
 
         map = new int[N][N];
         vtd = new boolean[N][N];
+        dis = new double[N];
+        for(int i = 0; i < N; i++) map[i] = Arrays.stream(br.readLine().split("")).mapToInt(Integer::parseInt).toArray();
+        Arrays.fill(dis, INF);
 
-        for(int i = 0; i < N; i++)
-            map[i] = Arrays.stream(br.readLine().split("")).mapToInt(Integer::parseInt).toArray();
-
-        if(K >= 1) answer = map[0][1] / 2.0;
-        else answer = map[0][1];
-        BFS();
-        System.out.print(answer);
+        dijkstra();
+        System.out.print(dis[1]);
     }
-    static void BFS(){
-        Queue<Point> q = new LinkedList<>();
-        q.add(new Point(0,0, K, 0));
 
-        while(!q.isEmpty()){
-            Point p = q.poll();
-            if(p.y == 0 && p.x == 1){
-                answer = Math.min(p.time, answer);
-                continue;
-            }
+    static void dijkstra(){
+        PriorityQueue<Point> pq = new PriorityQueue<>();
+        pq.add(new Point(0,K,0));
 
-            if (vtd[p.y][p.x] && p.time >= answer) continue;
-            vtd[p.y][p.x] = true;
+        while(!pq.isEmpty()){
+            Point p = pq.poll();
 
-            for(int j = 0; j < N; j++){
-                for(int m = 0; m < N; m++){
-                    if(p.y == j || p.x == m || vtd[j][m]) continue;
-                    q.add(new Point(j, m, p.potion, p.time + map[m][p.x]));
+            for(int to = 0; to < N; to++){
+                if((vtd[p.from][to] && p.time >= dis[to]) || p.from == to) continue;
+                vtd[p.from][to] = true;
 
-                    if(p.potion == 0) continue;
-                    q.add(new Point(j, m, p.potion-1, p.time + map[m][p.x] / 2.0));
+                double noPotionTime = p.time + map[p.from][to];
+                double potionTime = p.time + (map[p.from][to] / 2.0);
+
+                double temp = dis[to];
+
+                if(temp > noPotionTime){
+                    dis[to] = noPotionTime;
+                    pq.add(new Point(to, p.potion, dis[to]));
+                }
+                if(p.potion > 0 && temp > potionTime) {
+                    dis[to] = potionTime;
+                    pq.add(new Point(to, p.potion-1, dis[to]));
                 }
             }
         }
     }
-    static class Point{
-        int y, x, potion;
+
+    static class Point implements Comparable<Point>{
+        int from, potion;
         double time;
-        public Point(int y, int x, int potion, double time) {
-            this.y = y;
-            this.x = x;
+
+        public Point(int from, int potion, double time) {
+            this.from = from;
             this.potion = potion;
             this.time = time;
+        }
+
+        @Override
+        public int compareTo(Point o) {
+            return Double.compare(this.time, o.time);
         }
     }
 }
