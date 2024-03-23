@@ -9,7 +9,6 @@ public class Main {
     static final int INF = 987654321;
     static int N, K;
     static int[][] map;
-    static boolean[][] vtd;
     static double[] dis;
     static double answer;
     public static void main(String[] args) throws IOException {
@@ -20,7 +19,6 @@ public class Main {
         K = Integer.parseInt(st.nextToken());
 
         map = new int[N][N];
-        vtd = new boolean[N][N];
         dis = new double[N];
         for(int i = 0; i < N; i++) map[i] = Arrays.stream(br.readLine().split("")).mapToInt(Integer::parseInt).toArray();
         Arrays.fill(dis, INF);
@@ -37,8 +35,7 @@ public class Main {
             Point p = pq.poll();
 
             for(int to = 0; to < N; to++){
-                if((vtd[p.from][to] && p.time >= dis[to]) || p.from == to) continue;
-                vtd[p.from][to] = true;
+                if((p.time >= dis[to]) || p.from == to) continue;
 
                 double noPotionTime = p.time + map[p.from][to];
                 double potionTime = p.time + (map[p.from][to] / 2.0);
