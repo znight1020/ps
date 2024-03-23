@@ -10,6 +10,7 @@ public class Main {
     static int N, K;
     static int[][] map;
     static double[] dis;
+    static boolean[][] vtd;
     static double answer;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -19,6 +20,7 @@ public class Main {
         K = Integer.parseInt(st.nextToken());
 
         map = new int[N][N];
+        vtd = new boolean[K+1][N];
         dis = new double[N];
         for(int i = 0; i < N; i++) map[i] = Arrays.stream(br.readLine().split("")).mapToInt(Integer::parseInt).toArray();
         Arrays.fill(dis, INF);
@@ -33,16 +35,24 @@ public class Main {
 
         while(!pq.isEmpty()){
             Point p = pq.poll();
-            for(int to = 0; to < N; to++){
-                if((p.time >= dis[to]) || p.from == to) continue;
 
+            if(p.from == 1) answer = Math.min(p.time, answer);
+
+            if(vtd[p.potion][p.from]) continue;
+            vtd[p.potion][p.from] = true;
+
+            for(int to = 0; to < N; to++){
+                if(p.from == to) continue;
                 double noPotionTime = p.time + map[p.from][to];
                 double potionTime = p.time + (map[p.from][to] / 2.0);
-                if(dis[to] > noPotionTime){
+
+                double temp = dis[to];
+
+                if(temp > noPotionTime){
                     dis[to] = noPotionTime;
                     pq.add(new Point(to, p.potion, dis[to]));
                 }
-                if(p.potion > 0 && dis[to] > potionTime) {
+                if(p.potion > 0 && temp > potionTime) {
                     dis[to] = potionTime;
                     pq.add(new Point(to, p.potion-1, dis[to]));
                 }
@@ -59,6 +69,7 @@ public class Main {
             this.potion = potion;
             this.time = time;
         }
+
         @Override
         public int compareTo(Point o) {
             return Double.compare(this.time, o.time);
