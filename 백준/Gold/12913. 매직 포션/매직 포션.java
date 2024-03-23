@@ -33,20 +33,16 @@ public class Main {
 
         while(!pq.isEmpty()){
             Point p = pq.poll();
-
             for(int to = 0; to < N; to++){
                 if((p.time >= dis[to]) || p.from == to) continue;
 
                 double noPotionTime = p.time + map[p.from][to];
                 double potionTime = p.time + (map[p.from][to] / 2.0);
-
-                double temp = dis[to];
-
-                if(temp > noPotionTime){
+                if(dis[to] > noPotionTime){
                     dis[to] = noPotionTime;
                     pq.add(new Point(to, p.potion, dis[to]));
                 }
-                if(p.potion > 0 && temp > potionTime) {
+                if(p.potion > 0 && dis[to] > potionTime) {
                     dis[to] = potionTime;
                     pq.add(new Point(to, p.potion-1, dis[to]));
                 }
@@ -63,7 +59,6 @@ public class Main {
             this.potion = potion;
             this.time = time;
         }
-
         @Override
         public int compareTo(Point o) {
             return Double.compare(this.time, o.time);
