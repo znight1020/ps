@@ -44,8 +44,8 @@ public class Main {
 
                 if(ny < 0 || ny >= N || nx < 0 || nx >= M) continue;
 
-                if(map[ny][nx] != 1) q.add(new Point(ny, nx, p.d + 1, p.c));
-                if(map[ny][nx] == 1 && p.c == 1) q.add(new Point(ny, nx, p.d + 1, 0));
+                if(map[ny][nx] != 1 && !vtd[ny][nx][p.c]) q.add(new Point(ny, nx, p.d + 1, p.c));
+                if(map[ny][nx] == 1 && p.c == 1 && !vtd[ny][nx][0] ) q.add(new Point(ny, nx, p.d + 1, 0));
             }
         }
     }
