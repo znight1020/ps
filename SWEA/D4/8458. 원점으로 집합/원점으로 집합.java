@@ -27,6 +27,7 @@ public class Solution {
 				for(int i=0; i<N; i++) {
 					if(src[i] == 0) zeros++;
 					else if(src[i] == 1) ones++;
+					if(zeros > 0 && ones > 0) break;
 				}
 //				System.out.println(zeros + " " + ones);
 				if(ones > 0 && zeros > 0) {
@@ -50,8 +51,6 @@ public class Solution {
 						}
 					}
 				}
-				
-				
 			}
 			sb.append("#").append(t).append(" ").append(answer).append("\n");
 		}
