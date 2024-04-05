@@ -32,8 +32,6 @@ public class Main {
 
         while(!q.isEmpty()){
             Point p = q.poll();
-            if(vtd[p.y][p.x][p.c]) continue;
-            vtd[p.y][p.x][p.c] = true;
             if(p.y == N-1 && p.x == M-1){
                 answer = p.d;
                 return;
@@ -45,8 +43,14 @@ public class Main {
 
                 if(ny < 0 || ny >= N || nx < 0 || nx >= M) continue;
 
-                if(map[ny][nx] != 1 && !vtd[ny][nx][p.c]) q.add(new Point(ny, nx, p.d + 1, p.c));
-                if(map[ny][nx] == 1 && p.c > 0 && !vtd[ny][nx][p.c-1] ) q.add(new Point(ny, nx, p.d + 1, p.c-1));
+                if(map[ny][nx] != 1 && !vtd[ny][nx][p.c]){
+                    vtd[ny][nx][p.c] = true;
+                    q.add(new Point(ny, nx, p.d + 1, p.c));
+                }
+                else if(map[ny][nx] == 1 && p.c > 0 && !vtd[ny][nx][p.c-1] ){
+                    vtd[ny][nx][p.c-1] = true;
+                    q.add(new Point(ny, nx, p.d + 1, p.c-1));
+                }
             }
         }
     }
