@@ -38,7 +38,14 @@ public class Main {
         }
         System.out.print(sb);
     }
+    static public boolean checkEqual(Person cur, Person o){
+        if(cur.streakLength != o.streakLength) return false;
+        if(cur.streakFreezeCount != o.streakFreezeCount) return false;
+        if(cur.streakStart != o.streakStart) return false;
+        if(cur.streakFailCount != o.streakFailCount) return false;
 
+        return true;
+    }
     static void setPersonData(String name){
         int streakCnt = 0, failCnt = 0, startIdx = 0, streakFreezeCnt = 0, temp = 0;
         Person p = new Person(name, 0,0,0,0);
@@ -51,7 +58,15 @@ public class Main {
                     temp = 0;
                 }
                 else if(streakData[j][i] == 'X'){
-                    setStreakData(p, streakCnt, startIdx, streakFreezeCnt);
+                    if(p.streakLength == streakCnt && p.streakFreezeCount > streakFreezeCnt){
+                        p.streakStart = startIdx;
+                        p.streakFreezeCount = streakFreezeCnt;
+                    }
+                    if(p.streakLength < streakCnt) {
+                        p.streakLength = streakCnt; // 최장 스트릭 갱신
+                        p.streakStart = startIdx; // 최장 스트릭이 갱신되면 최장 스트릭 시작 일도 갱신
+                        p.streakFreezeCount = streakFreezeCnt;
+                    }
                     temp = 0;
                     failCnt++; // 스트릭 실패 개수
                     streakCnt = 0; // 다시 0부터 시작
@@ -63,32 +78,16 @@ public class Main {
             }
         }
         // for 문을 빠져나와서도 마지막 기록일까지 streak 을 채웠다면 최장 스트릭 길이가 갱신될 수 있음
-        setStreakData(p, streakCnt, startIdx, streakFreezeCnt);
-        p.streakFailCount = failCnt;
-
-        personArrayList.add(p);
-    }
-
-    static void setStreakData(Person p, int streakCnt, int startIdx, int streakFreezeCnt){
-        if(p.streakLength == streakCnt && p.streakFreezeCount > streakFreezeCnt){
-            p.streakStart = startIdx;
-            p.streakFreezeCount = streakFreezeCnt;
-        }
         if(p.streakLength < streakCnt) {
             p.streakLength = streakCnt; // 최장 스트릭 갱신
             p.streakStart = startIdx; // 최장 스트릭이 갱신되면 최장 스트릭 시작 일도 갱신
             p.streakFreezeCount = streakFreezeCnt;
         }
+        p.streakFailCount = failCnt;
+
+        personArrayList.add(p);
     }
 
-    static public boolean checkEqual(Person cur, Person o){
-        if(cur.streakLength != o.streakLength) return false;
-        if(cur.streakFreezeCount != o.streakFreezeCount) return false;
-        if(cur.streakStart != o.streakStart) return false;
-        if(cur.streakFailCount != o.streakFailCount) return false;
-
-        return true;
-    }
     static class Person implements Comparable<Person>{
         String name;
 
@@ -101,7 +100,7 @@ public class Main {
             this.streakStart = streakStart; // 스트릭프리즈 시작일
             this.streakFailCount = streakFailCount; // 스트릭 채우기 실패 개수
         }
-        
+
         @Override
         public int compareTo(Person o) {
             if(this.streakLength == o.streakLength) return compareToStreakFreezeCount(o);
