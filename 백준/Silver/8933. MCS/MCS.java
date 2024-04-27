@@ -16,7 +16,7 @@ public class Main {
             N = Integer.parseInt(st.nextToken());
             W = st.nextToken().toCharArray();
             int answer = findMaxMCS();
-
+            System.gc();
             sb.append(answer).append("\n");
         }
         System.out.print(sb);
@@ -25,21 +25,37 @@ public class Main {
     public static int findMaxMCS(){
         HashMap<Long, Integer> mcs = new HashMap<>();
         int[] count = new int[4];
-        for(int i = 0; i < W.length-N+1; i++){
-            for(int j = i; j < i+N; j++) {
-                if(W[j] == 'A') count[0]++;
-                else if(W[j] == 'T') count[1]++;
-                else if(W[j] == 'G') count[2]++;
-                else if(W[j] == 'C') count[3]++;
-            }
-            long hash = 0;
-            for(int idx = 0; idx < 4; idx++) {
-                if(idx == 0) hash += 601*601*601*count[idx];
-                else if(idx == 1) hash += 601*601*count[idx];
-                else if(idx == 2) hash += 601*count[idx];
-                else if(idx == 3) hash += count[idx];
-                count[idx] = 0;
-            }
+        for(int i = 0; i < N; i++){
+            if(W[i] == 'A') count[0]++;
+            else if(W[i] == 'T') count[1]++;
+            else if(W[i] == 'G') count[2]++;
+            else if(W[i] == 'C') count[3]++;
+        }
+        long hash = 0;
+        hash += 601*601*601*count[0];
+        hash += 601*601*count[1];
+        hash += 601*count[2];
+        hash += count[3];
+        mcs.put(hash, mcs.getOrDefault(hash, 0)+1);
+
+        for(int i = 1; i < W.length-N+1; i++){
+            int idx = 0;
+            if(W[i-1] == 'A') idx = 0;
+            else if(W[i-1] == 'T') idx = 1;
+            else if(W[i-1] == 'G') idx = 2;
+            else if(W[i-1] == 'C') idx = 3;
+            count[idx]--;
+
+            if(W[i+N-1] == 'A') count[0]++;
+            else if(W[i+N-1] == 'T') count[1]++;
+            else if(W[i+N-1] == 'G') count[2]++;
+            else if(W[i+N-1] == 'C') count[3]++;
+
+            hash = 0;
+            hash += 601*601*601*count[0];
+            hash += 601*601*count[1];
+            hash += 601*count[2];
+            hash += count[3];
             mcs.put(hash, mcs.getOrDefault(hash, 0)+1);
         }
 
