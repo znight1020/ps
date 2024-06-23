@@ -31,12 +31,8 @@ public class Main {
             else if(W[i] == 'G') count[2]++;
             else if(W[i] == 'C') count[3]++;
         }
-        long hash = 0;
-        hash += 601*601*601*count[0];
-        hash += 601*601*count[1];
-        hash += 601*count[2];
-        hash += count[3];
-        mcs.put(hash, mcs.getOrDefault(hash, 0)+1);
+        long hash = hashCalculate(count);
+        mcs.put(hash, 1);
 
         for(int i = 1; i < W.length-N+1; i++){
             int idx = 0;
@@ -51,16 +47,21 @@ public class Main {
             else if(W[i+N-1] == 'G') count[2]++;
             else if(W[i+N-1] == 'C') count[3]++;
 
-            hash = 0;
-            hash += 601*601*601*count[0];
-            hash += 601*601*count[1];
-            hash += 601*count[2];
-            hash += count[3];
+            hash = hashCalculate(count);
             mcs.put(hash, mcs.getOrDefault(hash, 0)+1);
         }
 
         int max = Integer.MIN_VALUE;
         for (Integer value : mcs.values()) max = Math.max(max, value);
         return max;
+    }
+
+    static long hashCalculate(int[] count){
+        long hash = 0;
+        hash += 601*601*601*count[0];
+        hash += 601*601*count[1];
+        hash += 601*count[2];
+        hash += count[3];
+        return hash;
     }
 }
