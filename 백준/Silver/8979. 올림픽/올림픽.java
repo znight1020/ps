@@ -28,9 +28,14 @@ public class Main {
 
     Collections.sort(countries);
     int rank = 1;
+    int cnt = 0;
     for(int i = 0; i < countries.size(); i++) {
-      if(i > 0 && countries.get(i).compareTo(countries.get(i-1)) > 0) {
-        rank++;
+      if(i > 0 && (countries.get(i).compareTo(countries.get(i-1)) > 0) ) rank++;
+      if(i > 0 && (countries.get(i).compareTo(countries.get(i-1)) == 0)) cnt++;
+
+      if(cnt > 0 && (countries.get(i).compareTo(countries.get(i-1)) != 0)) {
+        rank += cnt;
+        cnt = 0;
       }
 
       if(countries.get(i).num == targetCountry.num) {
@@ -39,7 +44,7 @@ public class Main {
       }
     }
 
-    System.out.println(answer);
+    System.out.print(answer);
   }
 
   static class Country implements Comparable<Country> {
