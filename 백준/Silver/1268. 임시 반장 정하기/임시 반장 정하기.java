@@ -3,59 +3,40 @@ import java.io.*;
 
 public class Main {
 
-  static int N, answer = 0, max = 0;
-  static List<Student> students = new ArrayList<>();
+  static int N, answer = 1, max = 0;
+  static int[][] classrooms;
 
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     N = Integer.parseInt(br.readLine());
-    for(int i = 0; i < N; i++) {
+    classrooms = new int[N][5];
+
+    for (int i = 0; i < N; i++) {
       StringTokenizer st = new StringTokenizer(br.readLine());
-      int c1 = Integer.parseInt(st.nextToken());
-      int c2 = Integer.parseInt(st.nextToken());
-      int c3 = Integer.parseInt(st.nextToken());
-      int c4 = Integer.parseInt(st.nextToken());
-      int c5 = Integer.parseInt(st.nextToken());
-      Student student = new Student(i+1, List.of(c1,c2,c3,c4,c5));
-      students.add(student);
+      for (int j = 0; j < 5; j++) classrooms[i][j] = Integer.parseInt(st.nextToken());
     }
 
-    for(int i = 0; i < N; i++) {
-      Student s = students.get(i);
-      for(int j = 0; j < 5; j++) {
-        int standard = s.classroom.get(j);
+    int[] classmateCount = new int[N];
 
-        for(int k = 0; k < N; k++) {
-          Student comparison = students.get(k);
-          if(standard == comparison.classroom.get(j)) {
-            s.classmate.add(comparison.num);
-          }
-        }
+    for (int i = 0; i < N; i++) {
+      boolean[] visited = new boolean[N];
+
+      for (int j = 0; j < 5; j++) {
+        int standard = classrooms[i][j];
+        for (int k = 0; k < N; k++) if (i != k && classrooms[k][j] == standard) visited[k] = true;
       }
+
+      for (boolean isClassmate : visited) if (isClassmate) classmateCount[i]++;
     }
 
-    for(int i = 0; i < N; i++) {
-      Student s = students.get(i);
-      int size = s.classmate.size();
-      if(size > max) {
-        max = size;
-        answer = s.num;
+    for (int i = 0; i < N; i++) {
+      if (classmateCount[i] > max) {
+        max = classmateCount[i];
+        answer = i + 1;
       }
     }
 
     System.out.println(answer);
-  }
-
-  static class Student {
-    int num;
-    List<Integer> classroom;
-    Set<Integer> classmate;
-
-    Student(int num, List<Integer> classroom) {
-      this.num = num;
-      this.classroom = classroom;
-      this.classmate = new HashSet<>();
-    }
   }
 }
