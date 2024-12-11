@@ -23,20 +23,23 @@ public class Main {
 
     for(int i = 0; i < N; i++) {
       Student s = students.get(i);
-      List<Integer> within = new ArrayList<>();
       for(int j = 0; j < 5; j++) {
         int standard = s.classroom.get(j);
 
         for(int k = 0; k < N; k++) {
           Student comparison = students.get(k);
-          if(standard == comparison.classroom.get(j) && !within.contains(comparison.num)) {
-            within.add(comparison.num);
+          if(standard == comparison.classroom.get(j)) {
+            s.classmate.add(comparison.num);
           }
         }
       }
+    }
 
-      if(within.size() > max) {
-        max = within.size();
+    for(int i = 0; i < N; i++) {
+      Student s = students.get(i);
+      int size = s.classmate.size();
+      if(size > max) {
+        max = size;
         answer = s.num;
       }
     }
@@ -47,10 +50,12 @@ public class Main {
   static class Student {
     int num;
     List<Integer> classroom;
+    Set<Integer> classmate;
 
     Student(int num, List<Integer> classroom) {
       this.num = num;
       this.classroom = classroom;
+      this.classmate = new HashSet<>();
     }
   }
 }
