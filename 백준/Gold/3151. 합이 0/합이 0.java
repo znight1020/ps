@@ -5,26 +5,31 @@ public class Main {
 
   static int N;
   static long answer = 0;
-  static List<Integer> students = new ArrayList<>();
+  static int[] students;
 
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     N = Integer.parseInt(br.readLine());
+    students = new int[N];
 
     StringTokenizer st = new StringTokenizer(br.readLine());
-    while(st.hasMoreTokens()) students.add(Integer.parseInt(st.nextToken()));
-    Collections.sort(students);
+    int iter = 0;
+    while(st.hasMoreTokens()) {
+      students[iter] = Integer.parseInt(st.nextToken());
+      iter++;
+    }
+    Arrays.sort(students);
 
     for(int i = 0; i < N-2; i++) {
-      int standard = students.get(i);
+      int standard = students[i];
       if(standard > 0) break;
 
       int start = i+1;
       int end = N-1;
 
       while(start < end) {
-        int p1 = students.get(start);
-        int p2 = students.get(end);
+        int p1 = students[start];
+        int p2 = students[end];
         int sum = standard + p1 + p2;
 
         if(sum == 0) {
@@ -34,13 +39,13 @@ public class Main {
           }
 
           int startCnt = 1;
-          while(p1 == students.get(start+1)) {
+          while(p1 == students[start+1]) {
             startCnt++;
             start++;
           }
 
           int endCnt = 1;
-          while(p2 == students.get(end-1)) {
+          while(p2 == students[end-1]) {
             endCnt++;
             end--;
           }
