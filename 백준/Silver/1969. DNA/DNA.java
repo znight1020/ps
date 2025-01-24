@@ -5,7 +5,6 @@ public class Main {
 
 	static int[][] arr;
 	static char[] src = {'A', 'C', 'G', 'T'};
-	static Map<Character, Integer> map = Map.of('A', 0, 'C', 1, 'G', 2, 'T', 3);
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -18,7 +17,13 @@ public class Main {
 		arr = new int[m][4];
 		for(int i = 0; i < n; i++) {
 			char[] temp = br.readLine().toCharArray();
-			for(int j = 0; j < m; j++) arr[j][map.get(temp[j])]++;
+			for(int j = 0; j < m; j++) {
+				int idx = 0;
+				if(temp[j] == 'C') idx = 1;
+				else if(temp[j] == 'G') idx = 2;
+				else if(temp[j] == 'T') idx = 3;
+				arr[j][idx]++;
+			}
 		}
 
 		int answer = 0;
