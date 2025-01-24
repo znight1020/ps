@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.*;
-import java.util.stream.*;
 
 public class Main {
 
@@ -24,20 +23,18 @@ public class Main {
 
 		int answer = 0;
 		for(int i = 0; i < m; i++) {
-			int[] temp = arr[i];
 			int max = 0, maxIdx = 0;
 
 			for(int j = 0; j < 4; j++) {
-				if(max < temp[j]) {
-					max = temp[j];
+				if(max < arr[i][j]) {
+					max = arr[i][j];
 					maxIdx = j;
 				}
 			}
-			int idx = maxIdx;
-			answer += IntStream.range(0, temp.length)
-					.filter(iter -> iter != idx)
-					.map(iter -> temp[iter])
-					.sum();
+			for(int j = 0; j < 4; j++) {
+				if(j == maxIdx) continue;
+				answer += arr[i][j];
+			}
 
 			sb.append(src[maxIdx]);
 		}
