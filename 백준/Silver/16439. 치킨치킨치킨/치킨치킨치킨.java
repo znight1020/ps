@@ -2,8 +2,6 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-
-	static int[] src;
 	static int[][] person;
 	static int N, M, answer = 0;
 
@@ -15,30 +13,25 @@ public class Main {
 		M = Integer.parseInt(st.nextToken());
 
 		person = new int[N][M];
-		src = new int[M];
-		for(int i = 0; i < M; i++) src[i] = i;
 		for (int i = 0; i < N; i++) {
 			st = new StringTokenizer(br.readLine());
 			for (int j = 0; j < M; j++)
 				person[i][j] = Integer.parseInt(st.nextToken());
 		}
 
-		comb(0, 0, new int[3], new boolean[M]);
+		comb(0, 0, new int[3]);
 		System.out.print(answer);
 	}
 
-	static void comb(int depth, int start, int[] arr, boolean[] vtd) {
+	static void comb(int depth, int start, int[] arr) {
 		if(depth == 3) {
 			calculate(arr);
 			return;
 		}
 
-		for(int i = start; i < src.length; i++) {
-			if(vtd[i]) continue;
-			arr[depth] = src[i];
-			vtd[i] = true;
-			comb(depth+1, i, arr, vtd);
-			vtd[i] = false;
+		for(int i = start; i < M; i++) {
+			arr[depth] = i;
+			comb(depth+1, i, arr);
 		}
 	}
 
