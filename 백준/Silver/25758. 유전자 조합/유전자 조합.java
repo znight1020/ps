@@ -21,8 +21,6 @@ public class Main {
 			set.add(arr[i].charAt(1));
 		}
 
-		Arrays.sort(arr);
-
 		int max = set.size();
 		for(int i = 0; i < arr.length; i++) {
 			solution(i, arr.length);
@@ -37,12 +35,12 @@ public class Main {
 	}
 
 	static void solution(int idx, int size) {
-		String s1 = arr[idx];
+		char pre = arr[idx].charAt(0);
 		for(int i = 0; i < size; i++) {
 			if(i == idx) continue;
-			String s2 = Character.toString(s1.charAt(0)) + arr[i].charAt(1);
-			if(s2.charAt(0) > s2.charAt(1)) ans.add(s2.charAt(0));
-			else ans.add(s2.charAt(1));
+			char cur = arr[i].charAt(1);
+			if(pre > cur) ans.add(pre);
+			else ans.add(cur);
 		}
 	}
 }
