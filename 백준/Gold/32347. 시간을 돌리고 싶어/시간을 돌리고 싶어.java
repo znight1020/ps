@@ -3,8 +3,7 @@ import java.io.*;
 
 public class Main {
 
-	static int N, K, min;
-	static boolean[] A;
+	static int N, K, min, size;
 	static List<Integer> pos = new ArrayList<>();
 
 	public static void main(String[] args) throws IOException {
@@ -13,15 +12,11 @@ public class Main {
 		N = Integer.parseInt(st.nextToken());
 		K = Integer.parseInt(st.nextToken());
 		min = N-1;
-		A = new boolean[N];
 
 		st = new StringTokenizer(br.readLine());
-		for(int i = 0; i < N; i++) {
-			if(Integer.parseInt(st.nextToken()) == 1) {
-				A[i] = true;
-				pos.add(i);
-			}
-		}
+		for(int i = 0; i < N; i++) if(Integer.parseInt(st.nextToken()) == 1) pos.add(i);
+		size = pos.size();
+		
 		binarySearch(N / K, N-1);
 		System.out.print(min);
 	}
@@ -49,7 +44,7 @@ public class Main {
 	}
 
 	static int setIdx(int idx) {
-		int left = 0, right = pos.size() - 1;
+		int left = 0, right = size-1;
 		while (left < right) {
 			int mid = (left + right) / 2;
 			if (pos.get(mid) >= idx) right = mid;
